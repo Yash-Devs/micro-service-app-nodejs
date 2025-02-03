@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build:
+      context: ./auth-service  # Path to your auth-service
+    container_name: auth-service
+    ports:
+      - "4001:4001"  # Expose the auth service on port 4001
+    networks:
+      - microservice-network
+    environment:
+      - NODE_ENV=production
+
+  user-service:
+    build:
+      context: ./user-service  # Path to your user-service
+    container_name: user-service
+    ports:
+      - "4002:4002"  # Expose the user service on port 4002
+    networks:
+      - microservice-network
+    environment:
+      - NODE_ENV=production
+
+  gateway:
+    build:
+      context: ./gateway  # Path to your gateway service
+    container_name: gateway-service
+    ports:
+      - "4000:4000"  # Expose the gateway service on port 4000
+    networks:
+      - microservice-network
+    depends_on:
+      - auth-service
+      - user-service
+    environment:
+      - NODE_ENV=production
+
+networks:
+  microservice-network:
+    driver: bridge
