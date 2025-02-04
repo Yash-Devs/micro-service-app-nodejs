@@ -25,25 +25,7 @@ The application consists of the following services:
 4. **Processing**: The respective microservice processes the request and interacts with the database if needed.
 5. **Response**: The processed response is sent back through the Gateway Service to the client.
 
-                           ┌────────────────────────────┐
-                           │        Client (User)       │
-                           │   (Web, Mobile, Postman)   │
-                           └──────────▲─────────────────┘
-                                      │
-                                      ▼
-                           ┌────────────────────────────┐
-                           │        API Gateway         │
-                           │  (Express + Proxy + Rate   │
-                           │  Limiting)
-                           └──────────▲─────────────────┘
-      ┌───────────────────────────────┼───────────────────────────────┐
-      │                               │                               │
-      ▼                               ▼                               ▼
-┌───────────────┐              ┌───────────────┐              ┌────────────────┐
-│ Auth Service  │              │ User Service  │              │ Other Services |
-│ (JWT, OAuth)  │              │ (User Data)   |              |                |
-└───────────────┘              └───────────────┘              └────────────────┘
-
+                         
 ## Deployment Instructions
 1. **Clone the Repository**
     ```sh
