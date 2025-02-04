@@ -82,8 +82,8 @@ The application consists of the following services:
     ```
 
 ## Future Enhancements
-- Integrating MongoDB for database storage
-- Implement Rate Limiting for API requests.
+- Integrating MongoDB for database storage.
+- Implement Rate Limiting for API requests. ✅
 - Add GraphQL support.
 - Improve logging with Winston.
 - Introduce Kafka or RabbitMQ for async messaging.
