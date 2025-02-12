@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - microservice-network
+
   auth-service:
     build:
       context: ./auth-service  # Path to your auth-service

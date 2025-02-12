@@ -6,8 +6,49 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { createClient } from 'redis';
+import { graphqlHTTP } from 'express-graphql';
+import { buildSchema } from 'graphql';
+import fetch from 'node-fetch';
 
 const app = express();
+
+//GraphQl Schema
+const schema = buildSchema(`
+    type User {
+        id: ID!
+        userName: String
+        password: String
+        name: String
+        email: String
+        age: Int
+    }
+    type Query {
+        getUser(id: ID!): User
+        getUsers: [User]
+    }
+`);
+
+//Resolvers
+const root = {
+    getUser: async ({ id }) => {
+        const response = await fetch(`http://${process.env.NODE_ENV != 'production' ? 'localhost' : 'user-service'}:4002/graphql`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ query: `{ getUser(id: "${id}") {id userName name email}}` })
+        });
+        const data = await response.json();
+        return data.data.getUser;
+    }
+}
+
+//Attach GraphQl Middleware
+app.use('/graphql', graphqlHTTP({
+    schema,
+    rootValue: root,
+    graphql: true
+}));
 
 // Connect to Redis in order to use RedisStore for rate limiting
 // Note that the host is set to "localhost" when running in development mode
