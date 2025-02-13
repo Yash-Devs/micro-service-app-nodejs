@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { JWT_SECRET_KEY } from '../configs/jwtConfig';
+import User from '../models/Users';
 
 // Mock database
-const users = [];
+// const users = [];
 
 /**
  * Registers a new user.
@@ -11,10 +12,12 @@ const users = [];
  * @param {Object} res - The response object.
  */
 export const register = async (req, res) => {
-    const { userName, password, email } = req.body;
+    const { userName, password, name, email, age } = req.body;
 
+    // Find the user in the database
+    const user = await User.findOne({ email });
     // Check if the user already exists
-    const user = users.find(user => user.email == email);
+    // const user = users.find(user => user.email == email);
     if (user)
         return res.status(409).send({ message: "User already exists" });
 
@@ -22,7 +25,9 @@ export const register = async (req, res) => {
     const hashPassword = bcrypt.hashSync(password, 10);
 
     // Add the user to the database
-    users.push({ userName, email, password: hashPassword });
+    const newUser = new User({ userName, password: hashPassword, name, email, age });
+    await newUser.save();
+    // users.push({ userName, email, password: hashPassword });
 
     return res.send({ message: "User created successfully" });
 };
@@ -36,7 +41,9 @@ export const login = async (req, res) => {
     const { userName, password } = req.body;
 
     // Find the user in the database
-    const user = users.find(user => user.userName == userName);
+    const user = await User.findOne({ userName });
+    console.log("user", user);
+    // const user = users.find(user => user.userName == userName);
     if (!user)
         return res.status(401).send({ message: "Invalid credentials" });
 
