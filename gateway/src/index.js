@@ -1,3 +1,4 @@
+import "./logger"; // This overrides console.log globally
 // Import express application
 import app from './app';
 

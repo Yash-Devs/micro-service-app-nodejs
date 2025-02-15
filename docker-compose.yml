@@ -9,41 +9,71 @@ services:
     networks:
       - microservice-network
 
+  logging-service:
+    build:
+      context: ./logging-service  # Path to your logging-service
+    container_name: logging-service
+    ports:
+      - "6000:6000"  # Expose the logging service on port 6000
+    networks:
+      - microservice-network
+
   auth-service:
     build:
       context: ./auth-service  # Path to your auth-service
     container_name: auth-service
+    depends_on:
+      - mongodb
+      - logging-service
+      - redis
     ports:
       - "4001:4001"  # Expose the auth service on port 4001
     networks:
       - microservice-network
     environment:
       - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/userdb
+
 
   user-service:
     build:
       context: ./user-service  # Path to your user-service
     container_name: user-service
+    depends_on:
+      - mongodb
+      - logging-service
+      - redis
     ports:
       - "4002:4002"  # Expose the user service on port 4002
     networks:
       - microservice-network
     environment:
       - NODE_ENV=production
-
+      - MONGO_URI=mongodb://mongodb:27017/userdb
   gateway:
     build:
       context: ./gateway  # Path to your gateway service
     container_name: gateway-service
+    depends_on:
+      - mongodb
+      - logging-service
+      - redis
+      - auth-service
+      - user-service
     ports:
       - "4000:4000"  # Expose the gateway service on port 4000
     networks:
       - microservice-network
-    depends_on:
-      - auth-service
-      - user-service
     environment:
       - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/userdb
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - microservice-network
 
 networks:
   microservice-network:

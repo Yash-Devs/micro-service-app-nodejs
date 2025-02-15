@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bcrypt": "^5.1.1",
@@ -22,7 +23,8 @@
     "graphql": "^15.10.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@babel/node": "^7.26.0",

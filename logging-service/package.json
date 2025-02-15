@@ -1,5 +1,5 @@
 {
-  "name": "gateway",
+  "name": "logging-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,23 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.9",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "express-graphql": "^0.12.0",
-    "express-rate-limit": "^7.5.0",
-    "graphql": "^15.10.1",
-    "http-proxy-middleware": "^3.0.3",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.6",
-    "nodemon": "^3.1.9",
-    "rate-limit-redis": "^4.2.0",
-    "redis": "^4.7.0",
-    "winston": "^3.17.0"
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@babel/node": "^7.26.0",

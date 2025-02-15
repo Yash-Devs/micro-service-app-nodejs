@@ -6,6 +6,7 @@ import User from '../models/Users';
  * @param {Object} res - Express response object
  */
 export const getUserProfile = async (req, res) => {
+    console.log("Inside getUserProfile", req.user);
     const user = await User.findOne({ email: req.user.email })
         .select('-_id -password -userName -__v');
     res.send({ user: user });
